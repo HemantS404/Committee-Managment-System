@@ -7,3 +7,6 @@
 ###### 2. Chat system
 ###### 3. Video calling system 
 ###### 4. JWT authentication
+###### 5. Adding Celery
+###### 6. Email verification
+###### 7. OTP verification
