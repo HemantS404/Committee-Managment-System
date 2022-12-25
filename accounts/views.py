@@ -7,7 +7,7 @@ from rest_framework.response import Response
 class RegisterApi(APIView):
     def post(self, request):
 
-        serializer = RegisterSerializers(data = request.data)
+        serializer = UserSerializers(data = request.data)
 
         if not serializer.is_valid():
             return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})

@@ -1,13 +1,31 @@
 from django.db import models
-from Committee.models import *
 from .managers import UserManager
 from django.contrib.auth.models import AbstractBaseUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.core.exceptions import ValidationError
- 
+
+class Committee(models.Model):
+    Committee_name = models.CharField(max_length=20, help_text='Enter name of the committee', unique=True)
+    Committee_Department = models.CharField(max_length=20, help_text='Enter deparment of the committee')
+    Committee_Logo = models.ImageField(upload_to='CommitteLogo/')
+    Committee_date_of_establishment = models.DateField()
+    def __str__(self):
+        return self.Committee_name
+
+class Position(models.Model):
+
+    position_for_chocies = [('Core', 'Core'), ('CoCom', 'CoCom')]
+
+    Committee = models.ForeignKey(Committee, on_delete = models.CASCADE, related_name = 'Position_Committee')
+    Position_name =  models.CharField(max_length=20, help_text='Enter the name of position')
+    Position_for = models.CharField(max_length=20,choices=position_for_chocies)
+    class Meta:
+        unique_together = ('Committee', 'Position_name', 'Position_for')
+
+    def __str__(self):
+        return self.Committee.Committee_name+"'s "+self.Position_name  
 
 class User(AbstractBaseUser):
-    Department = models.CharField(max_length=20, help_text='Enter your Deparment')
     First_name = models.CharField(max_length=20, help_text='Enter your First name')
     Last_name = models.CharField(max_length=20, help_text='Enter your Last name')
     date_of_birth = models.DateField(help_text='Enter your Date of Birth')
@@ -65,11 +83,10 @@ class Core(models.Model):
 
     committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name = 'Core_Committee')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'Core_User')
-    SAPID = models.PositiveBigIntegerField()
     position = models.ForeignKey(Position,  on_delete=models.CASCADE, related_name = 'Core_Position', validators = [ positionValidator ])
     department = models.CharField(max_length=20, help_text='Enter your deparment')
     def __str__(self):
-        return self.user.First_name +' '+ self.user.Last_name +", "+ self.user.email
+        return self.user.First_name +' '+ self.user.Last_name +", "+ self.user.email+", "+self.committee.Committee_name+"'s "+self.position.Position_name
     class Meta:
         unique_together = ('user', 'committee', 'position')
 
@@ -85,10 +102,9 @@ class CoCom(models.Model):
     
     committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name = 'CoCom_Committee')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'CoCom_User')
-    SAPID = models.PositiveBigIntegerField()
     position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name = 'CoCom_Position', validators = [ positionValidator ])
     department = models.CharField(max_length=20, help_text='Enter your deparment')
     def __str__(self):
-        return self.user.First_name +' '+ self.user.Last_name  +", "+ self.user.email
+        return self.user.First_name +' '+ self.user.Last_name  +", "+ self.user.email+", "+self.committee.Committee_name+"'s "+self.position.Position_name
     class Meta:
         unique_together = ('user', 'committee', 'position')

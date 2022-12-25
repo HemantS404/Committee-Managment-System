@@ -1,11 +1,25 @@
 from rest_framework import serializers
 from .models import *
 
-class RegisterSerializers(serializers.ModelSerializer):
-    
+class CommitteeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Committee
+        fields ='__all__'
+class PositionSerializer(serializers.ModelSerializer):
+    # Committee = CommitteeSerializer(read_only =True)
+    class Meta:
+        model = Position
+        fields ='__all__'
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['Committee'] = CommitteeSerializer(
+            Committee.objects.get(pk=data['Committee'])).data
+        return data
+
+class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['Department', 
+        fields = [ 
             'First_name', 
             'Last_name', 
             'date_of_birth',
@@ -23,8 +37,7 @@ class RegisterSerializers(serializers.ModelSerializer):
         return data
     
     def create(self, validated_data):
-        user = User.objects.create(
-            Department = validated_data['Department'], 
+        user = User.objects.create( 
             First_name = validated_data['First_name'], 
             Last_name = validated_data['Last_name'], 
             date_of_birth = validated_data['date_of_birth'],
@@ -35,9 +48,52 @@ class RegisterSerializers(serializers.ModelSerializer):
         user.save()
         return user
 
+
+class GuideSerializers(serializers.ModelSerializer):
+    # committee = CommitteeSerializer(read_only =True)
+    # user = UserSerializers(read_only =True)
+    class Meta:
+        model = Guide
+        fields ='__all__'
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['committee'] = CommitteeSerializer(
+            Committee.objects.get(pk=data['committee'])).data
+        data['user'] = UserSerializers(
+            User.objects.get(pk=data['user'])).data
+        return data
         
-    
-   
-    
-    
+class CoreSerializers(serializers.ModelSerializer):
+    # committee = CommitteeSerializer(read_only =True)
+    # user = UserSerializers(read_only =True)
+    # position = PositionSerializer(read_only =True)
+    class Meta:
+        model = Core
+        fields ='__all__'
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['committee'] = CommitteeSerializer(
+            Committee.objects.get(pk=data['committee'])).data
+        data['user'] = UserSerializers(
+            User.objects.get(pk=data['user'])).data
+        data['position'] = PositionSerializer(
+            Position.objects.get(pk=data['position'])).data
+        return data
+
+class CoComSerializers(serializers.ModelSerializer):
+    # committee = CommitteeSerializer(read_only =True)
+    # user = UserSerializers(read_only =True)
+    # position = PositionSerializer(read_only =True)
+    class Meta:
+        model = CoCom
+        fields ='__all__'
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['committee'] = CommitteeSerializer(
+            Committee.objects.get(pk=data['committee'])).data
+        data['user'] = UserSerializers(
+            User.objects.get(pk=data['user'])).data
+        data['position'] = PositionSerializer(
+            Position.objects.get(pk=data['position'])).data
+        return data
     
