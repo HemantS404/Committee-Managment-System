@@ -3,7 +3,7 @@ from accounts.models import *
 # Create your models here.
 
 class Team(models.Model):
-    team_name = models.CharField(max_length=20,default = ' ')
+    team_name = models.CharField(max_length=20)
     belongs_to = models.ForeignKey(Committee, on_delete=models.CASCADE,related_name='Committee')
     Mentors = models.ManyToManyField(Core)
     Mentee = models.ManyToManyField(CoCom)
@@ -16,7 +16,7 @@ class Task(models.Model):
     team_assign = models.ForeignKey(Team, on_delete= models.CASCADE, related_name='Team')
     assigned_by = models.ForeignKey(Core, on_delete= models.CASCADE, related_name='Core')
     description = models.CharField(max_length=200)
-    material = models.FileField(upload_to ='Tasks/', null=True, blank=True)
+    material = models.FileField(upload_to ='Tasks/')
 
     def __str__(self):
         return self.task_name
