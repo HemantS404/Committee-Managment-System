@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from rest_framework.generics import GenericAPIView, ListAPIView
+from rest_framework.generics import GenericAPIView
 from .serializers import *
 from rest_framework.response import Response
-from django.contrib.auth.decorators import login_required
 from .models import *
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated

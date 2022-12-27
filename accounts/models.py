@@ -30,6 +30,7 @@ class User(AbstractBaseUser):
     Last_name = models.CharField(max_length=20, help_text='Enter your Last name')
     date_of_birth = models.DateField(help_text='Enter your Date of Birth')
     phone = PhoneNumberField(null=False, blank=False, unique=True, help_text='Enter Phone Number')
+    department = models.CharField(max_length=20, help_text='Enter your deparment')
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
@@ -67,24 +68,30 @@ class Guide(models.Model):
     committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name = 'Guide_Committee')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'Guide_User')
     designation = models.CharField(max_length=20, help_text='Enter your Designation')
-    department = models.CharField(max_length=20, help_text='Enter your deparment')
+    
     def __str__(self):
         return self.user.First_name +' '+ self.user.Last_name +", "+ self.user.email
     class Meta:
         unique_together = ('user', 'committee')
 
 class Core(models.Model):
-    def positionValidator(self):
+    def positionValidator(value):
         pos = [x['id'] for  x in list(Position.objects.filter( Position_for = 'Core').values())]
-        if self in pos:
-             return self
+        if(str(type(value)) == "<class 'accounts.models.Position'>"):
+            if value.id in pos:
+                return value
+            else:
+                raise ValidationError("The position is not for Core")
         else:
-            raise ValidationError("Invalid Inputs")
+            if value in pos:
+                return value
+            else:
+                raise ValidationError("The position is not for Core")
 
     committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name = 'Core_Committee')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'Core_User')
     position = models.ForeignKey(Position,  on_delete=models.CASCADE, related_name = 'Core_Position', validators = [ positionValidator ])
-    department = models.CharField(max_length=20, help_text='Enter your deparment')
+    
     def __str__(self):
         return self.user.First_name +' '+ self.user.Last_name +", "+ self.user.email+", "+self.committee.Committee_name+"'s "+self.position.Position_name
     class Meta:
@@ -93,17 +100,21 @@ class Core(models.Model):
 class CoCom(models.Model):
     def positionValidator(value):
         pos = [x['id'] for  x in list(Position.objects.filter(Position_for = 'CoCom').values())]
-        print(pos)
-        print(value)
-        if value in pos:
-             return value
+        if(str(type(value)) == "<class 'accounts.models.Position'>"):
+            if value.id in pos:
+                return value
+            else:
+                raise ValidationError("The position is not for CoCom")
         else:
-            raise ValidationError("Invalid Inputs")
+            if value in pos:
+                return value
+            else:
+                raise ValidationError("The position is not for CoCom")
     
     committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name = 'CoCom_Committee')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'CoCom_User')
     position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name = 'CoCom_Position', validators = [ positionValidator ])
-    department = models.CharField(max_length=20, help_text='Enter your deparment')
+
     def __str__(self):
         return self.user.First_name +' '+ self.user.Last_name  +", "+ self.user.email+", "+self.committee.Committee_name+"'s "+self.position.Position_name
     class Meta:

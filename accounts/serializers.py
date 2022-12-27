@@ -5,11 +5,13 @@ class CommitteeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Committee
         fields ='__all__'
+
 class PositionSerializer(serializers.ModelSerializer):
     # Committee = CommitteeSerializer(read_only =True)
     class Meta:
         model = Position
         fields ='__all__'
+    
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['Committee'] = CommitteeSerializer(
@@ -25,7 +27,9 @@ class UserSerializers(serializers.ModelSerializer):
             'date_of_birth',
             'phone',
             'email',
-            'password']
+            'password',
+            'department',
+            ]
 
     def validate(self, data):
         for i in data['First_name'] :
@@ -43,6 +47,7 @@ class UserSerializers(serializers.ModelSerializer):
             date_of_birth = validated_data['date_of_birth'],
             phone = validated_data['phone'],
             email = validated_data['email'],
+            department = validated_data['department'],
             )
         user.set_password(validated_data['password'])
         user.save()
@@ -55,6 +60,7 @@ class GuideSerializers(serializers.ModelSerializer):
     class Meta:
         model = Guide
         fields ='__all__'
+    
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['committee'] = CommitteeSerializer(
@@ -70,6 +76,7 @@ class CoreSerializers(serializers.ModelSerializer):
     class Meta:
         model = Core
         fields ='__all__'
+    
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['committee'] = CommitteeSerializer(
@@ -87,6 +94,7 @@ class CoComSerializers(serializers.ModelSerializer):
     class Meta:
         model = CoCom
         fields ='__all__'
+    
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['committee'] = CommitteeSerializer(

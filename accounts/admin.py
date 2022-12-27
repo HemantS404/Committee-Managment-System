@@ -2,13 +2,13 @@ from django.contrib import admin
 from .models import *
 
 class guide(admin.ModelAdmin):
-    list_display = ('user', 'committee', 'department')
-    search_fields = ('user', 'committee', 'department')
+    list_display = ('user', 'committee')
+    search_fields = ('user', 'committee')
     raw_id_fields=('user', 'committee')
 
 class core_cocom(admin.ModelAdmin):
-    list_display = ('user', 'position', 'committee', 'department')
-    search_fields = ('user', 'position', 'committee', 'department')
+    list_display = ('user', 'position', 'committee')
+    search_fields = ('user', 'position', 'committee')
     raw_id_fields=('user', 'position', 'committee') 
 
 admin.site.register(User)
