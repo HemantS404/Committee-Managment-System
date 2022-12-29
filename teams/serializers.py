@@ -38,7 +38,7 @@ class AssignedToSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['task '] = TaskSerializer(
+        data['task'] = TaskSerializer(
             Task.objects.get(pk=data['assgined_to'])).data
         data['assgined_to'] = CoComSerializers(
             CoCom.objects.get(pk=data['assgined_to'])).data
