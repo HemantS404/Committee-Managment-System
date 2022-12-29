@@ -52,7 +52,10 @@ class DashBoardApi(GenericAPIView):
                     "Last Name" : x["task"]["assigned_by"]["user"]["Last_name"]
                     }} for x in  AssignedToSerializer(task_have_obj, many=True).data]
         
-        return Response({'User': str(request.user),'CoCom': cocom_data, 'Core': core_data,'Teams(as Mentor)': mentor_team_data,'Teams(as Mentee)' :mentee_team_data,'task_given' : task_given_data ,'task_have': task_have_data})
+        completed_task = [x for x in task_have_data if x["Submitted"] == True]
+        incomplete_task = [x for x in task_have_data if x["Submitted"] == False]
+        
+        return Response({'User': str(request.user),'CoCom': cocom_data, 'Core': core_data,'Teams(as Mentor)': mentor_team_data,'Teams(as Mentee)' :mentee_team_data,'task_given' : task_given_data ,'Completed Task': completed_task, "Incomplete Task":incomplete_task})
 
 class TaskAssignApi(GenericAPIView):
     
@@ -107,8 +110,10 @@ class TaskAssignApi(GenericAPIView):
                     "First Name" : x["task"]["assigned_by"]["user"]["First_name"], 
                     "Last Name" : x["task"]["assigned_by"]["user"]["Last_name"]
                     }} for x in  AssignedToSerializer(task_have_obj, many=True).data]
+            completed_task = [x for x in task_have_data if x["Submitted"] == True]
+            incomplete_task = [x for x in task_have_data if x["Submitted"] == False]
         
-        return Response({'status':200, 'payload':{'User': str(request.user),'task_given' : task_given_data ,'task_have': task_have_data}})
+        return Response({'status':200, 'payload':{'User': str(request.user),'task_given' : task_given_data ,'Completed Task': completed_task, "Incomplete Task":incomplete_task}})
   
 class TeamApi(GenericAPIView):
     
