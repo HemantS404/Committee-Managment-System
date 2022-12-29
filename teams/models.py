@@ -24,7 +24,7 @@ class Task(models.Model):
 class AssignedTo(models.Model):
     task = models.ForeignKey(Task, on_delete = models.CASCADE, related_name='Task')
     assgined_to = models.ForeignKey(CoCom, on_delete=models.CASCADE, related_name='assigned_to')
-    status = models.BooleanField(default = False)
+    submitted = models.BooleanField(default = False)
     comments = models.CharField(max_length = 200,null=True, blank=True)
     repo_link = models.URLField(null=True, blank=True)
     upload = models.FileField(null=True, blank=True)

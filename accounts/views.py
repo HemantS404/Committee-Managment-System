@@ -38,7 +38,7 @@ class LogoutApi(APIView):
             exc_type, value, traceback = sys.exc_info()
             return Response({'status':403, 'message': 'Some error has occured', 'error': exc_type.__name__})
 
-class CommitteeRegisterApi(GenericAPIView):
+class CommitteeApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -62,7 +62,7 @@ class CommitteeRegisterApi(GenericAPIView):
         
         return Response({'status': 200, 'payload' : {"Committee_id" : serializer.data['id']},'message' : 'Committee Registered Successful'})
 
-class PositionRegisterApi(GenericAPIView):
+class PositionApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -85,11 +85,16 @@ class PositionRegisterApi(GenericAPIView):
             if not serializer.is_valid():
                 return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
 
-class GuideRegisterApi(GenericAPIView):
+class GuideApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     
+    def get(self, request):
+        guide_obj = Guide.objects.filter(user = request.user)
+        guide_data = [{"Committee" : x["committee"]["Committee_name"], 'Designation' : x['designation']} for x in GuideSerializers(guide_obj, many=True).data]
+        return Response({'status': 200, 'payload':{'User': str(request.user),'Guide': guide_data}})
+
     def post(self, request):
         
         core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()]
@@ -109,11 +114,16 @@ class GuideRegisterApi(GenericAPIView):
             if not serializer.is_valid():
                 return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
 
-class CoreRegisterApi(GenericAPIView):
+class CoreApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     
+    def get(self, request):
+        core_obj = Core.objects.filter(user = request.user)
+        core_data = [{"committee" : x["committee"]["Committee_name"], "position" : x["position"]["Position_name"]} for x in CoreSerializers(core_obj, many=True).data]
+        return Response({'status': 200, 'payload':{'User': str(request.user),'Core': core_data}})
+
     def post(self, request):
         
         core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()]
@@ -136,10 +146,15 @@ class CoreRegisterApi(GenericAPIView):
             if not serializer.is_valid():
                 return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
 
-class CoComRegisterApi(GenericAPIView):
+class CoComApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        cocom_obj = CoCom.objects.filter(user = request.user)
+        cocom_data = [{"committee" : x["committee"]["Committee_name"], "position" : x["position"]["Position_name"]} for x in CoComSerializers(cocom_obj, many=True).data]
+        return Response({'status': 200, 'payload':{'User': str(request.user),'CoCom': cocom_data}})
     
     def post(self, request):
         
