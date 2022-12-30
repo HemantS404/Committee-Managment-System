@@ -160,9 +160,9 @@ class TeamApi(GenericAPIView):
             team_committe_id = TeamSerializer(team_committe_obj).data['belongs_to']['id']
             if (team_committe_id in core_committee_id):
                 team_committe_obj.delete()
-                return Response({'status':200, 'payload': {'Team_id' : id}, 'message': 'Team Updated Successfully'})
+                return Response({'status':200, 'payload': {'Team_id' : id}, 'message': 'Team Deleted Successfully'})
             else:
-                return Response({'status': 403, 'error' : 'Not a Core in the Entered Committee','message' : 'Bad Request'})
+                return Response({'status': 403, 'error' : 'Not a Core in the Entered Team\'s Committee','message' : 'Bad Request'})
         except Exception as e:
             return Response({'status': 403, 'message' : 'Invalid Id'})
 

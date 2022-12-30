@@ -282,7 +282,7 @@ class UserApi(GenericAPIView):
         user_obj = User.objects.get(id=request.user.id)
         id = request.user.id
         user_obj.delete()
-        return Response({'status':200, 'payload': {'User_id' : id}, 'message': 'User Updated Successfully'})
+        return Response({'status':200, 'payload': {'User_id' : id}, 'message': 'User Deleted Successfully'})
 
     def patch(self, request):
         try:
