@@ -62,6 +62,39 @@ class TaskAssignApi(GenericAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
+    def delete(self, request, id = None):
+        try:
+            task_obj = Task.objects.get(id =id)
+            team_Mentors = TaskSerializer(task_obj).data['team_assign']['Mentors']
+            core_id = [x['id'] for x in Core.objects.filter(user = request.user).values()]
+            for x in core_id:
+                if x in team_Mentors:
+                    task_obj.delete()
+                    return Response({'status':200, 'payload': {'Task_id' : id}, 'message': 'Task Deleted Successfully'})
+            else:        
+                return Response({'status': 403, 'error' : 'Not a Mentor in the Entered Task\'s Team','message' : 'Bad Request'})
+        except Exception as e:
+            print(e)
+            return Response({'status': 403, 'message' : 'Invalid Id'})
+
+    def patch(self, request, id):
+        try:
+            task_obj = Task.objects.get(id =id)
+            team_Mentors = TaskSerializer(task_obj).data['team_assign']['Mentors']
+            core_id = [x['id'] for x in Core.objects.filter(user = request.user).values()]
+            for x in core_id:
+                if x in team_Mentors:
+                    serializer = TaskSerializer(task_obj, data = request.data, partial =True)
+                    if not serializer.is_valid():
+                        return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
+                    serializer.save()
+                    return Response({'status':200, 'payload': {'Task_id' : serializer.data['id']}, 'message': 'Task Updated Successfully'})
+            else:        
+                return Response({'status': 403, 'error' : 'Not a Mentor in the Entered Task\'s Team','message' : 'Bad Request'})
+        except Exception as e:
+            print(e)
+            return Response({'status': 403, 'message' : 'Invalid Id'})
+
     def post(self, request):
         try:
             team_mentors_id = TeamSerializer(Team.objects.get(id = request.data['team_assign'])).data['Mentors']
@@ -120,6 +153,38 @@ class TeamApi(GenericAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     
+    def delete(self, request, id = None):
+        core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()]
+        try:
+            team_committe_obj = Team.objects.get(id =id)
+            team_committe_id = TeamSerializer(team_committe_obj).data['belongs_to']['id']
+            if (team_committe_id in core_committee_id):
+                team_committe_obj.delete()
+                return Response({'status':200, 'payload': {'Team_id' : id}, 'message': 'Team Updated Successfully'})
+            else:
+                return Response({'status': 403, 'error' : 'Not a Core in the Entered Committee','message' : 'Bad Request'})
+        except Exception as e:
+            return Response({'status': 403, 'message' : 'Invalid Id'})
+
+    def patch(self, request, id = None):
+        core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()]
+        try:
+            team_committe_obj = Team.objects.get(id =id)
+            team_committe_id = TeamSerializer(team_committe_obj).data['belongs_to']['id']
+            if (team_committe_id in core_committee_id):
+                try:
+                    serializer = TeamSerializer(team_committe_obj, data = {'team_name' : request.data['team_name']}, partial =True)
+                    if not serializer.is_valid():
+                        return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
+                    serializer.save()
+                except:
+                    serializer = TeamSerializer(team_committe_obj)
+                return Response({'status':200, 'payload': {'Team_id' : serializer.data['id']}, 'message': 'Team Updated Successfully'})
+            else:
+                return Response({'status': 403, 'error' : 'Not a Core in the Entered Committee','message' : 'Bad Request'})
+        except Exception as e:
+            return Response({'status': 403, 'message' : 'Invalid Id'})
+
     def get(self, request):
         
         mentor_team_data=[];mentee_team_data=[]
@@ -190,3 +255,78 @@ class TeamApi(GenericAPIView):
             serializer = TeamSerializer(data = request.data)
             if not serializer.is_valid():
                     return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
+
+class TeamUpdateApi(GenericAPIView):
+    
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, operation, id = None):
+        core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()]
+        try:
+            team_committe_obj = Team.objects.get(id =id)
+            team_committe_id = TeamSerializer(team_committe_obj).data['belongs_to']['id']
+            if (team_committe_id in core_committee_id):
+                try:
+                    team_Mentor = TeamSerializer(team_committe_obj).data['Mentors']
+                    team_Mentee = TeamSerializer(team_committe_obj).data['Mentee']
+                    
+                    try:
+                        mentor_list = request.data["Mentors"].strip('][}{)(').split(',')
+                        core_list = [x['id'] for x in Core.objects.filter(committee = team_committe_id).values()]
+                        for i in mentor_list:
+                            if int(i) not in core_list:
+                                return Response({'status': 403, 'error' : f"id : {i} is not in Committee's Core ",'message' : 'Bad Request'})
+                    except:
+                        mentor_list=[]
+
+                    try:
+                        mentee_list = request.data["Mentee"].strip('][}{)(').split(',')
+                        cocom_list = [x['id'] for x in CoCom.objects.filter(committee = team_committe_id).values()]
+                        for i in mentee_list:
+                            if int(i) not in cocom_list:
+                                return Response({'status': 403, 'error' : f"id : {i} is not in Committee's CoCom ",'message' : 'Bad Request'})
+                    except:
+                        mentee_list=[]
+
+                    if(operation == 'add'):
+                        serializer = TeamSerializer(team_committe_obj, data = {'Mentors' : team_Mentor + mentor_list, 'Mentee' : team_Mentee + mentee_list}, partial =True)
+                        if not serializer.is_valid():
+                            return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
+                        serializer.save()
+                    elif(operation == 'delete'):
+                        mentor_list = list(map(int, mentor_list))
+                        mentee_list = list(map(int, mentee_list))
+                        serializer = TeamSerializer(team_committe_obj, data = {'Mentors' : list(set(team_Mentor) - set(mentor_list)), 'Mentee' : list(set(team_Mentee) - set(mentee_list))}, partial =True)
+                        if not serializer.is_valid():
+                            return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
+                        serializer.save()
+                    else:
+                        return Response({'status':403, 'message': 'Allowed operations are [add, delete]'})
+                except Exception as e:
+                    serializer = TeamSerializer(team_committe_obj)
+                return Response({'status':200, 'payload': {'Team_id' : serializer.data['id']}, 'message': 'Team Updated Successfully'})
+            else:
+                return Response({'status': 403, 'error' : 'Not a Core in the Entered Committee','message' : 'Bad Request'})
+        except Exception as e:
+            return Response({'status': 403, 'message' : 'Invalid Id'})
+
+class AssignedToApi(GenericAPIView):
+    
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, id = None):
+        try:
+            assigned_obj = AssignedTo.objects.get(id = id)
+            assigned_obj_user_id = AssignedToSerializer(assigned_obj).data["assgined_to"]["user"]["id"]
+            if (request.user.id == assigned_obj_user_id):
+                serializer = AssignedToSerializer(assigned_obj, data = request.data, partial = True)
+                if not serializer.is_valid():
+                    return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
+                serializer.save()
+                return Response({'status':200, 'payload': {'Assgined To ID' : serializer.data['id']}, 'message': 'Assgined-Task Updated Successfully'})
+            else:
+                return Response({'status': 403, 'error' : 'Current User ID Doesn\'t match with Assigned User ID','message' : 'Bad Request'})
+        except:
+            return Response({'status': 403, 'message' : 'Invalid Id'})

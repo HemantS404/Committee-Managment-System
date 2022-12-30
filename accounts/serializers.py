@@ -21,24 +21,20 @@ class PositionSerializer(serializers.ModelSerializer):
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = [ 
-            'First_name', 
-            'Last_name', 
-            'date_of_birth',
-            'phone',
-            'email',
-            'password',
-            'department',
-            ]
+        fields = '__all__'
 
     def validate(self, data):
-        for i in data['First_name'] :
-            if i.isdigit():
-                raise serializers.ValidationError({'error':'Name cannot have digits'})
-        for i in data['Last_name'] :
-            if i.isdigit():
-                raise serializers.ValidationError({'error':'Name cannot have digits'})
-        return data
+        try:
+            for i in data['First_name'] :
+                if i.isdigit():
+                    raise serializers.ValidationError({'error':'Name cannot have digits'})
+            for i in data['Last_name'] :
+                if i.isdigit():
+                    raise serializers.ValidationError({'error':'Name cannot have digits'})
+            return data
+        except:
+            return data
+        
     
     def create(self, validated_data):
         user = User.objects.create( 
