@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from uuid import uuid4
 
 class CommitteeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,11 +45,11 @@ class UserSerializers(serializers.ModelSerializer):
             phone = validated_data['phone'],
             email = validated_data['email'],
             department = validated_data['department'],
+            email_token = uuid4(),
             )
         user.set_password(validated_data['password'])
         user.save()
         return user
-
 
 class GuideSerializers(serializers.ModelSerializer):
     # committee = CommitteeSerializer(read_only =True)

@@ -5,12 +5,13 @@ from rest_framework.response import Response
 from .models import *
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
+from accounts.custompermission import IsVerified
 
 # Create your views here.
 class DashBoardApi(GenericAPIView):
 
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
 
     def get(self, request):
         mentor_team_data=[];mentee_team_data=[];task_given_data =[];task_have_data = []
@@ -60,7 +61,7 @@ class DashBoardApi(GenericAPIView):
 class TaskAssignApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
 
     def delete(self, request, id = None):
         try:
@@ -151,7 +152,7 @@ class TaskAssignApi(GenericAPIView):
 class TeamApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
     
     def delete(self, request, id = None):
         core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()]
@@ -259,7 +260,7 @@ class TeamApi(GenericAPIView):
 class TeamUpdateApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
 
     def patch(self, request, operation, id = None):
         core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()]
@@ -314,7 +315,7 @@ class TeamUpdateApi(GenericAPIView):
 class AssignedToApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
 
     def patch(self, request, id = None):
         try:

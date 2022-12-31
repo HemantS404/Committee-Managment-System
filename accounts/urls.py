@@ -21,4 +21,7 @@ urlpatterns = [
     path('CoCom/', CoComApi.as_view(), name = 'CoCom'),
     path('CoCom/<id>/', CoComApi.as_view(), name = 'CoCom-Delete'),
     path('User-Update/', UserApi.as_view(), name='User-Update'),
+    path('Password-Reset/', PasswordResetApi.as_view(), name='Password-Reset'),
+    path('redirect/<id>/<token>/', reset, name = 'redirect' ),
+    path('verify/<id>/<token>/', RegisterApi.as_view(), name = 'email-verify'),
 ]

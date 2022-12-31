@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -7,9 +8,25 @@ from rest_framework.response import Response
 import sys
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from django.forms.models import model_to_dict
+from django.conf import settings
+from django.core.mail import send_mail
+from .custompermission import IsVerified
+from uuid import uuid4
 
 class RegisterApi(APIView):
+    def get(self, request, id, token):
+        try:
+            user_obj = User.objects.get(id = id)
+            user_data = UserSerializers(user_obj).data
+            if(token == user_data['email_token']):
+                user_obj.is_verified = True
+                user_obj.save()
+                return HttpResponse('<h1>User is Verified Successfully</h1>')
+            else:
+                return HttpResponse('<h1>Token is not valid</h1>')
+        except:
+            return HttpResponse('<h1>Sorry Some error has occured</h1>')
+
     def post(self, request):
 
         serializer = UserSerializers(data = request.data)
@@ -18,11 +35,17 @@ class RegisterApi(APIView):
             return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
 
         serializer.save()
+        user_data = serializer.data
+        subject = 'welcome to Committee Managment System'
+        message = f'Hi!\n{user_data["First_name"]} {user_data["Last_name"]}, thank you for registering in Committee Managment System.\nPlease Click here to verfy Your Account http://127.0.0.1:8000/accounts/verify/{user_data["id"]}/{user_data["email_token"]}/\nThis is a Computer generated mail don\'t reply to this mail'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [user_data['email'], ]
+        send_mail( subject, message, email_from, recipient_list )
 
-        user = User.objects.get(email = serializer.data['email'])
+        user = User.objects.get(email = user_data['email'])
         refresh = RefreshToken.for_user(user)
 
-        return Response({'status': 200, 'payload' : {"User email" : serializer.data['email'] , "User id" : user.id},'message' : 'Registration Successful', 'refresh': str(refresh), 'access': str(refresh.access_token)})
+        return Response({'status': 200, 'payload' : {"User email" : user_data['email'] , "User id" : user.id},'message' : 'Registration Successful, Please Check Your Mail, an Email verfication link has been provided', 'refresh': str(refresh), 'access': str(refresh.access_token)})
 
 class LogoutApi(APIView):
     def post(self, request):
@@ -41,7 +64,7 @@ class LogoutApi(APIView):
 class CommitteeApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
     
     def delete(self, request, id=None):
         core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()]
@@ -92,7 +115,7 @@ class CommitteeApi(GenericAPIView):
 class PositionApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
 
     def delete(self, request, id=None):
         core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()]
@@ -144,7 +167,7 @@ class PositionApi(GenericAPIView):
 class GuideApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
     
     def delete(self, request, id = None):
         core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()] 
@@ -187,7 +210,7 @@ class GuideApi(GenericAPIView):
 class CoreApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
     
     def delete(self, request, id = None):
         core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()] 
@@ -232,7 +255,7 @@ class CoreApi(GenericAPIView):
 class CoComApi(GenericAPIView):
     
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
 
     def delete(self, request, id = None):
         core_committee_id = [x['committee_id'] for x in Core.objects.filter(user = request.user).values()] 
@@ -276,7 +299,7 @@ class CoComApi(GenericAPIView):
 
 class UserApi(GenericAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerified]
 
     def delete(self, request):
         user_obj = User.objects.get(id=request.user.id)
@@ -305,3 +328,41 @@ class UserApi(GenericAPIView):
         except Exception as e:
             print(e)
             return Response({'status': 403, 'message' : e})
+     
+class PasswordResetApi(GenericAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsVerified]
+
+    def get(self, request):
+        user_obj = User.objects.get(id=request.user.id)
+        user_data = UserSerializers(user_obj).data
+        subject = 'Password Reset Mail'
+        uuid = uuid4()
+        user_obj.password_reset_token = uuid
+        user_obj.save()
+        message = f'http://127.0.0.1:8000/accounts/redirect/{user_data["id"]}/{uuid}/'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [user_data['email'], ]
+        send_mail( subject, message, email_from, recipient_list )
+        return Response({'status': 200, 'message' : 'Please check your mail a password reset link has been provided'})
+    
+def reset(request, id, token):
+    
+    if request.method == 'GET':
+        user_obj = User.objects.get(id=id)
+        if(token == user_obj.password_reset_token):
+            return render(request, "passwordreset.html", {'id' : id, 'token' : token})
+        else:
+            return HttpResponse('<h1>Token is not valid</h1>')
+    elif request.method == 'POST':
+        password = request.POST['password']
+        user_obj = User.objects.get(id=id)
+        if(token == user_obj.password_reset_token):
+            try:
+                user_obj.set_password(password)
+                user_obj.save()
+                return HttpResponse('<h1>User Password changed Successfully</h1>')
+            except:
+                return HttpResponse('<h1>Some error has occured</h1>')
+        else:
+            return HttpResponse('<h1>Token is not valid</h1>')
