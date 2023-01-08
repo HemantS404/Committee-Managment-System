@@ -387,19 +387,21 @@ def reset(request, id, token):
             return HttpResponse('<h1>Token is not valid</h1>')
 
 def otpVerify(request, id):
-    
-    if request.method == 'GET':
-        user_obj = User.objects.get(id=id)
-        return render(request, "otpverify.html", {'id' : id})
-    elif request.method == 'POST':
-        otp = request.POST['otp']
-        user_obj = User.objects.get(id=id)
-        if(int(otp) == int(user_obj.phone_otp)):
-            try:
-                user_obj.is_phone_verified =True
-                user_obj.save()
-                return HttpResponse('<h1>User Phone number is Verified Successfully</h1>')
-            except:
-                return HttpResponse('<h1>Some error has occured</h1>')
-        else:
-            return HttpResponse('<h1>Wrong OTP</h1>')
+    try:
+        if request.method == 'GET':
+            user_obj = User.objects.get(id=id)
+            return render(request, "otpverify.html", {'id' : id})
+        elif request.method == 'POST':
+            otp = request.POST['otp']
+            user_obj = User.objects.get(id=id)
+            if(int(otp) == int(user_obj.phone_otp)):
+                try:
+                    user_obj.is_phone_verified =True
+                    user_obj.save()
+                    return HttpResponse('<h1>User Phone number is Verified Successfully</h1>')
+                except:
+                    return HttpResponse('<h1>Some error has occured</h1>')
+            else:
+                return HttpResponse('<h1>Wrong OTP</h1>')
+    except:
+        return HttpResponse('<h1>Wrong ID</h1>')
