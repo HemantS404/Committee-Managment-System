@@ -4,3 +4,5 @@ pillow
 django-phonenumber-field[phonenumberslite]
 djangorestframework-simplejwt
 python-decouple
+drf-yasg
+twilio

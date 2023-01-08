@@ -12,6 +12,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from .custompermission import IsVerified
 from uuid import uuid4
+from twilio.rest import Client
 
 class RegisterApi(APIView):
     def get(self, request, id, token):
@@ -19,7 +20,7 @@ class RegisterApi(APIView):
             user_obj = User.objects.get(id = id)
             user_data = UserSerializers(user_obj).data
             if(token == user_data['email_token']):
-                user_obj.is_verified = True
+                user_obj.is_email_verified = True
                 user_obj.save()
                 return HttpResponse('<h1>User is Verified Successfully</h1>')
             else:
@@ -36,16 +37,32 @@ class RegisterApi(APIView):
 
         serializer.save()
         user_data = serializer.data
-        subject = 'welcome to Committee Managment System'
-        message = f'Hi!\n{user_data["First_name"]} {user_data["Last_name"]}, thank you for registering in Committee Managment System.\nPlease Click here to verfy Your Account http://127.0.0.1:8000/accounts/verify/{user_data["id"]}/{user_data["email_token"]}/\nThis is a Computer generated mail don\'t reply to this mail'
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [user_data['email'], ]
-        send_mail( subject, message, email_from, recipient_list )
+        try:
+            subject = 'Welcome to Committee Managment System'
+            message = f'Hi!\n{user_data["First_name"]} {user_data["Last_name"]}, thank you for registering in Committee Managment System.\nPlease Click here to verfy Your Account http://127.0.0.1:8000/accounts/verify/{user_data["id"]}/{user_data["email_token"]}/\nThis is a Computer generated mail don\'t reply to this mail'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [user_data['email'], ]
+            send_mail( subject, message, email_from, recipient_list )
+        except:
+            return Response({'status': 403, 'message': 'Sorry Some error has occured'})
+        try:
+            account_sid = settings.TWILIO_ACCOUNT_SID
+            auth_token = settings.TWILIO_AUTH_TOKEN
+            client = Client(account_sid, auth_token)
+            message = client.messages.create(
+                                        body=f'Your OTP - {user_data["phone_otp"]}',
+                                        from_=settings.TWILIO_PHONE,
+                                        to=user_data['phone']
+                                    )
+
+            print(message.sid)
+        except:
+            return Response({'status': 403, 'message': 'Sorry Some error has occured'})
 
         user = User.objects.get(email = user_data['email'])
         refresh = RefreshToken.for_user(user)
 
-        return Response({'status': 200, 'payload' : {"User email" : user_data['email'] , "User id" : user.id},'message' : 'Registration Successful, Please Check Your Mail, an Email verfication link has been provided', 'refresh': str(refresh), 'access': str(refresh.access_token)})
+        return Response({'status': 200, 'payload' : {"User email" : user_data['email'] , "User id" : user.id},'message' : 'Registration Successful, Please Check Your Mail, an Email verfication link has been provided, an OTP has been send to your number', 'refresh': str(refresh), 'access': str(refresh.access_token)})
 
 class LogoutApi(APIView):
     def post(self, request):
@@ -62,7 +79,7 @@ class LogoutApi(APIView):
             return Response({'status':403, 'message': 'Some error has occured', 'error': exc_type.__name__})
 
 class CommitteeApi(GenericAPIView):
-    
+    serializer_class = CoComSerializers
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
     
@@ -113,7 +130,7 @@ class CommitteeApi(GenericAPIView):
         return Response({'status': 200, 'payload' : {"Committee_id" : serializer.data['id']},'message' : 'Committee Registered Successful'})
 
 class PositionApi(GenericAPIView):
-    
+    serializer_class = PositionSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
 
@@ -165,7 +182,7 @@ class PositionApi(GenericAPIView):
                 return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
 
 class GuideApi(GenericAPIView):
-    
+    serializer_class = GuideSerializers
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
     
@@ -208,7 +225,7 @@ class GuideApi(GenericAPIView):
                 return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
 
 class CoreApi(GenericAPIView):
-    
+    serializer_class = CoreSerializers
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
     
@@ -253,7 +270,7 @@ class CoreApi(GenericAPIView):
                 return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
 
 class CoComApi(GenericAPIView):
-    
+    serializer_class = CoComSerializers
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
 
@@ -298,6 +315,7 @@ class CoComApi(GenericAPIView):
                 return Response({'status':403, 'errors': serializer.errors, 'message': 'Some error has occured'})
 
 class UserApi(GenericAPIView):
+    serializer_class = UserSerializers
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
 
@@ -330,6 +348,7 @@ class UserApi(GenericAPIView):
             return Response({'status': 403, 'message' : e})
      
 class PasswordResetApi(GenericAPIView):
+    serializer_class = UserSerializers
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
 
@@ -366,3 +385,21 @@ def reset(request, id, token):
                 return HttpResponse('<h1>Some error has occured</h1>')
         else:
             return HttpResponse('<h1>Token is not valid</h1>')
+
+def otpVerify(request, id):
+    
+    if request.method == 'GET':
+        user_obj = User.objects.get(id=id)
+        return render(request, "otpverify.html", {'id' : id})
+    elif request.method == 'POST':
+        otp = request.POST['otp']
+        user_obj = User.objects.get(id=id)
+        if(int(otp) == int(user_obj.phone_otp)):
+            try:
+                user_obj.is_phone_verified =True
+                user_obj.save()
+                return HttpResponse('<h1>User Phone number is Verified Successfully</h1>')
+            except:
+                return HttpResponse('<h1>Some error has occured</h1>')
+        else:
+            return HttpResponse('<h1>Wrong OTP</h1>')

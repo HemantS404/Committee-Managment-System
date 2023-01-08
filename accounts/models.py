@@ -38,10 +38,12 @@ class User(AbstractBaseUser):
         help_text='Enter your Email',
     )
     email_token =  models.CharField(max_length=250, null=True, blank=True)
+    phone_otp = models.IntegerField(null=True, blank=True)
     password_reset_token = models.CharField(max_length=250, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    is_verified = models.BooleanField(default=False)
+    is_email_verified = models.BooleanField(default=False)
+    is_phone_verified = models.BooleanField(default=False)
 
     objects = UserManager()
 
@@ -68,7 +70,7 @@ class User(AbstractBaseUser):
         return self.is_admin
     
     def is_verify(self):
-        return self.is_verified
+        return (self.is_email_verified and self.is_phone_verified)
 
 class Guide(models.Model):
     committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name = 'Guide_Committee')

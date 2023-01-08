@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from uuid import uuid4
+import random
 
 class CommitteeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,6 +47,7 @@ class UserSerializers(serializers.ModelSerializer):
             email = validated_data['email'],
             department = validated_data['department'],
             email_token = uuid4(),
+            phone_otp = random.randint(1000,9999),
             )
         user.set_password(validated_data['password'])
         user.save()

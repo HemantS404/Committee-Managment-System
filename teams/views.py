@@ -9,7 +9,7 @@ from accounts.custompermission import IsVerified
 
 # Create your views here.
 class DashBoardApi(GenericAPIView):
-
+    serializer_class = CoreSerializers
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
 
@@ -59,7 +59,7 @@ class DashBoardApi(GenericAPIView):
         return Response({'User': str(request.user),'CoCom': cocom_data, 'Core': core_data,'Teams(as Mentor)': mentor_team_data,'Teams(as Mentee)' :mentee_team_data,'task_given' : task_given_data ,'Completed Task': completed_task, "Incomplete Task":incomplete_task})
 
 class TaskAssignApi(GenericAPIView):
-    
+    serializer_class = TaskSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
 
@@ -150,7 +150,7 @@ class TaskAssignApi(GenericAPIView):
         return Response({'status':200, 'payload':{'User': str(request.user),'task_given' : task_given_data ,'Completed Task': completed_task, "Incomplete Task":incomplete_task}})
   
 class TeamApi(GenericAPIView):
-    
+    serializer_class = TeamSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
     
@@ -259,6 +259,7 @@ class TeamApi(GenericAPIView):
 
 class TeamUpdateApi(GenericAPIView):
     
+    serializer_class = TeamSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
 
@@ -313,7 +314,7 @@ class TeamUpdateApi(GenericAPIView):
             return Response({'status': 403, 'message' : 'Invalid Id'})
 
 class AssignedToApi(GenericAPIView):
-    
+    serializer_class = AssignedToSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsVerified]
 

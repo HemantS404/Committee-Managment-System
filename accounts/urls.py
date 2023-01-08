@@ -24,4 +24,5 @@ urlpatterns = [
     path('Password-Reset/', PasswordResetApi.as_view(), name='Password-Reset'),
     path('redirect/<id>/<token>/', reset, name = 'redirect' ),
     path('verify/<id>/<token>/', RegisterApi.as_view(), name = 'email-verify'),
+    path('verify-otp/<id>/', otpVerify, name = 'otp-verify'),
 ]
