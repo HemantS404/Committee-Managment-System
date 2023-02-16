@@ -5,3 +5,5 @@
 - Login
 - SignUp
 - Logout
+
+### Used JWT AUTH
