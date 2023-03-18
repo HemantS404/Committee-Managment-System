@@ -1,0 +1,1492 @@
+{
+	"info": {
+		"_postman_id": "c24acdfb-e46b-48e9-911e-0aa4273b4240",
+		"name": "Committee Management Api",
+		"description": "This is my personal project for committee management system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25071399"
+	},
+	"item": [
+		{
+			"name": "SignUp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "First_name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Last_name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "date_of_birth",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "department",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/SignUp/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"SignUp",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "refresh",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Logout/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Logout",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login/Refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "refresh",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Login/refresh/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Login",
+						"refresh",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Committee-Registration",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Committee_name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Committee_Department",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Committee_date_of_establishment",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Committee_Logo",
+							"description": "IMAGE",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Committee/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Committee",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Position-Registration",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Position_name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Position_for",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Committee",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Position/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Position",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Guide-Registration",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "designation",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "committee",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "user",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Guide/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Guide",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core-Registration",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "committee",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "user",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "position",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Core/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Core",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CoCom-Registration",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "committee",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "user",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "position",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/CoCom/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"CoCom",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Team-Registration",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzEwODIxLCJpYXQiOjE2NzIzMDcyMjEsImp0aSI6ImNiZmM3MThhNjRkMjQ3MDdhZjE1ZTg1ZDkwODhkNjYwIiwidXNlcl9pZCI6MTZ9.MkMY3d7U50GtYi9ZozwbaYyOyaPMIFsHH7uZkr_oXOQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "belongs_to",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Mentors",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Mentee",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "team_name",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Teams/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Teams",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task-Assign",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzEwODIxLCJpYXQiOjE2NzIzMDcyMjEsImp0aSI6ImNiZmM3MThhNjRkMjQ3MDdhZjE1ZTg1ZDkwODhkNjYwIiwidXNlcl9pZCI6MTZ9.MkMY3d7U50GtYi9ZozwbaYyOyaPMIFsHH7uZkr_oXOQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "task_name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "team_assign",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "material",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Tasks/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User-Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDM4MDE0LCJpYXQiOjE2NzIzNTE2MTQsImp0aSI6IjlkOGFiNGQ1Y2NjMzQ4YjRhNDlhZDUxMzc0YjUxZThlIiwidXNlcl9pZCI6OH0.smoc7no8WWMkXIsI0jl9synu1twZqCJYORYFjeXIWng",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "First_name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Last_name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "date_of_birth",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "department",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/User-Update/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"User-Update",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Committee-Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDg0ODkxLCJpYXQiOjE2NzIzOTg0OTEsImp0aSI6IjI5OWIzZDJlMTczZDRiZTRhZjI1M2EzNDNmZDlhOGI2IiwidXNlcl9pZCI6OH0.XgdtXgPEBLPtgk-ZVi6JP7AQIGb43-DslB9ESiXc4ow",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Committee_name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Committee_Department",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Committee_date_of_establishment",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Committee_Logo",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Committee/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Committee",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Position-Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDI1OTM2LCJpYXQiOjE2NzIzMzk1MzYsImp0aSI6IjM2N2RiZTU2ODFkMDRkZmU4OGQwOTZjMzNkNGQ4ZTc1IiwidXNlcl9pZCI6Mn0.bjScH4HV3oaWVkOLl6ERtzl4KwLPn7zANWVwqsrrT94",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Position_name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Position_for",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Position/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Position",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Team-Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDI4MTg3LCJpYXQiOjE2NzIzNDE3ODcsImp0aSI6ImEzOGRjMjk0MTc3MzQzMmZiMWE1MjM4NDZlNjRmNDBjIiwidXNlcl9pZCI6Mn0.ja2tMXK8_auJS1mzd_fAfzHkL53Eus3iGasArax5mwk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "team_name",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Teams/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Teams",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Team-Members-Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDI4MTg3LCJpYXQiOjE2NzIzNDE3ODcsImp0aSI6ImEzOGRjMjk0MTc3MzQzMmZiMWE1MjM4NDZlNjRmNDBjIiwidXNlcl9pZCI6Mn0.ja2tMXK8_auJS1mzd_fAfzHkL53Eus3iGasArax5mwk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Mentors",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Mentee",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Teams/<operation>/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Teams",
+						"<operation>",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task-Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDM4MDE0LCJpYXQiOjE2NzIzNTE2MTQsImp0aSI6IjlkOGFiNGQ1Y2NjMzQ4YjRhNDlhZDUxMzc0YjUxZThlIiwidXNlcl9pZCI6OH0.smoc7no8WWMkXIsI0jl9synu1twZqCJYORYFjeXIWng",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "task_name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "material",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Tasks/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Tasks",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task-Assigned-Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDc0NjY4LCJpYXQiOjE2NzIzODgyNjgsImp0aSI6ImNhNDliZTM5MjdjZDQ2YWNiNjFkODZjNmYyNWZmOWYzIiwidXNlcl9pZCI6MTZ9.OWeG9740Qk81MTkqJJT9vYi0eVNlE0JLQd_RLzBvVD8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "submitted",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "comments",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "repo_link",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "upload",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Tasks/Assigned/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Tasks",
+						"Assigned",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core-Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Core/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Core",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CoCom-Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/CoCom/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"CoCom",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Guide-Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Guide/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Guide",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teams-Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Teams/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Teams",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tasks-Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Tasks/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dashboard",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyMzk3MzAxLCJpYXQiOjE2NzIzMTA5MDEsImp0aSI6IjYxMjA0YTU5ZWIxZDQzMDJhYWMyNTkyZTBhNTVlNDkxIiwidXNlcl9pZCI6MTZ9.wqdHMnQPW7l4ehp_Roblyjyvboij6l1i5Ij5axEJBFQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Dashboard/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Dashboard",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Password-Reset",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNjA4NjkyLCJpYXQiOjE2NzI1MjIyOTIsImp0aSI6ImZiOTU5ZDc3ZDI3MTRlZWFiNjM1MTY2ZTNmOWIxMTA3IiwidXNlcl9pZCI6MTB9.0fTCTgqUPA8FFMrZBKxBnJuuqUyE-35pTqQDMZuZaI0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Password-Reset/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Password-Reset",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task-Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDg0ODkxLCJpYXQiOjE2NzIzOTg0OTEsImp0aSI6IjI5OWIzZDJlMTczZDRiZTRhZjI1M2EzNDNmZDlhOGI2IiwidXNlcl9pZCI6OH0.XgdtXgPEBLPtgk-ZVi6JP7AQIGb43-DslB9ESiXc4ow",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Tasks/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Tasks",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Team-Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/teams/Teams/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"teams",
+						"Teams",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CoCom-Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDg0ODkxLCJpYXQiOjE2NzIzOTg0OTEsImp0aSI6IjI5OWIzZDJlMTczZDRiZTRhZjI1M2EzNDNmZDlhOGI2IiwidXNlcl9pZCI6OH0.XgdtXgPEBLPtgk-ZVi6JP7AQIGb43-DslB9ESiXc4ow",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/CoCom/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"CoCom",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core-Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDg0ODkxLCJpYXQiOjE2NzIzOTg0OTEsImp0aSI6IjI5OWIzZDJlMTczZDRiZTRhZjI1M2EzNDNmZDlhOGI2IiwidXNlcl9pZCI6OH0.XgdtXgPEBLPtgk-ZVi6JP7AQIGb43-DslB9ESiXc4ow",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Core/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Core",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Guide-Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDg0ODkxLCJpYXQiOjE2NzIzOTg0OTEsImp0aSI6IjI5OWIzZDJlMTczZDRiZTRhZjI1M2EzNDNmZDlhOGI2IiwidXNlcl9pZCI6OH0.XgdtXgPEBLPtgk-ZVi6JP7AQIGb43-DslB9ESiXc4ow",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Guide/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Guide",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Position-Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Position/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Position",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Committee-Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/Committee/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"Committee",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User-Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcyNDg0ODkxLCJpYXQiOjE2NzIzOTg0OTEsImp0aSI6IjI5OWIzZDJlMTczZDRiZTRhZjI1M2EzNDNmZDlhOGI2IiwidXNlcl9pZCI6OH0.XgdtXgPEBLPtgk-ZVi6JP7AQIGb43-DslB9ESiXc4ow",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/User-Update/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"User-Update",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OTP-Verify",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/accounts/verify-otp/<id>/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"accounts",
+						"verify-otp",
+						"<id>",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
