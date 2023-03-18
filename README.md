@@ -6,7 +6,7 @@
 ###### 1. Event Fee / Membership Fee  (payment gateway)
 ###### 2. Chat system
 ###### 3. Video calling system 
-###### 4. JWT authentication
+###### ~~4. JWT authentication~~
 ###### 5. Adding Celery
-###### 6. Email verification
-###### 7. OTP verification
+###### ~~6. Email verification~~
+###### ~~7. OTP verification~~
